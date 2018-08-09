@@ -1,55 +1,20 @@
-package com.mihailstefanov.photoalbum.entities;
+package com.mihailstefanov.photoalbum.bindingModels;
 
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
-@Entity
-@Table(name = "photos")
-public class Photo {
+public class PhotoBindingModel {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable = false)
 	private String name;
-	
-	@Column(nullable = false)
 	private String description;
-	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(nullable = false)
 	private Date dateUploaded;
-	
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(nullable = false)
 //	private Date dateTaken;
-	
-	@Lob
-	@Column(nullable = false, columnDefinition = "BLOB")
 	private byte[] largePhoto;
-	
-//	@Lob
-//	@Column(nullable = false, columnDefinition = "BLOB")
 //	private byte[] smallPhoto;
-	
-	@Basic
 	private long numberOfUniqueUserViews;
-	
-	@Basic
 	private long numberOfLikes;
-	
-	@Basic
 	private String tags;
 	
 	@Basic
@@ -59,7 +24,7 @@ public class Photo {
 	//	- shared with [list]
 	//	- comments
 	
-	public Photo(String name, String description, Date dateUploaded, byte[] largePhoto, long numberOfUniqueUserViews,
+	public PhotoBindingModel(String name, String description, Date dateUploaded, byte[] largePhoto, long numberOfUniqueUserViews,
 			long numberOfLikes, String tags, boolean sharedPublicly) {
 		this.name = name;
 		this.description = description;
@@ -158,5 +123,4 @@ public class Photo {
 	public void setSharedPublicly(boolean sharedPublicly) {
 		this.sharedPublicly = sharedPublicly;
 	}
-	
 }
