@@ -3,28 +3,23 @@
 	<div th:if="${message}">
 		<h3 th:text="${message}"></h3>
 	</div>
-	<form th:action="@{/photo/add}" method="POST">
+	<form th:action="@{/photo/add}" enctype="multipart/form-data" method="POST">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
-					<label for=""></label>
-					<input type="text" class="form-control" />
+					<label for="name">Name</label>
+					<input type="text" class="form-control" id="name" name="name" />
 				</div>
 				<div class="form-group">
-					<label for=""></label>
-					<input type="text" class="form-control" />
+					<label for="description">Description</label>
+					<input type="text" class="form-control" id="description" name="description" />
 				</div>
 				<div class="form-group">
-					<label for=""></label>
-					<input type="text" class="form-control" />
+					<label for="file">File</label>
+					<input type="file" class="form-control" id="file" name="file" />
 				</div>
-				<div class="form-group">
-					<label for=""></label>
-					<input type="text" class="form-control" />
-				</div>
-				<div class="form-group">
-					<label for=""></label><input type="text" class="form-control" />
-				</div>
+				<button class="btn btn-primary" type="submit">Add</button>
+				<button class="btn btn-secondary" type="button">Back</button>
 			</div>
 		</div>
 	</form>

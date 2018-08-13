@@ -8,7 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -35,13 +36,13 @@ public class Photo {
 //	@Column(nullable = false)
 //	private Date dateTaken;
 	
-	@Lob
-	@Column(nullable = false, columnDefinition = "BLOB")
-	private byte[] largePhoto;
+	@OneToOne
+	@JoinColumn(name = 	"file_id")
+	private File file;
 	
 //	@Lob
 //	@Column(nullable = false, columnDefinition = "BLOB")
-//	private byte[] smallPhoto;
+//	private byte[] smallFile;
 	
 	@Basic
 	private long numberOfUniqueUserViews;
@@ -59,20 +60,26 @@ public class Photo {
 	//	- shared with [list]
 	//	- comments
 	
-	public Photo(String name, String description, Date dateUploaded, byte[] largePhoto, long numberOfUniqueUserViews,
+	
+
+	public Long getId() {
+		return id;
+	}
+
+	public Photo(String name, String description, Date dateUploaded, File file, long numberOfUniqueUserViews,
 			long numberOfLikes, String tags, boolean sharedPublicly) {
 		this.name = name;
 		this.description = description;
 		this.dateUploaded = dateUploaded;
-		this.largePhoto = largePhoto;
+		this.file = file;
 		this.numberOfUniqueUserViews = numberOfUniqueUserViews;
 		this.numberOfLikes = numberOfLikes;
 		this.tags = tags;
 		this.sharedPublicly = sharedPublicly;
 	}
-
-	public Long getId() {
-		return id;
+	
+	public Photo(String name, String description, File file) {
+		this(name, description, new Date(), file, 0, 0, "", false);
 	}
 
 	public void setId(Long id) {
@@ -111,13 +118,6 @@ public class Photo {
 //		this.dateTaken = dateTaken;
 //	}
 
-	public byte[] getLargePhoto() {
-		return largePhoto;
-	}
-
-	public void setLargePhoto(byte[] largePhoto) {
-		this.largePhoto = largePhoto;
-	}
 
 //	public byte[] getSmallPhoto() {
 //		return smallPhoto;
@@ -149,6 +149,14 @@ public class Photo {
 
 	public void setTags(String tags) {
 		this.tags = tags;
+	}
+	
+	public File getFile() {
+		return file;
+	}
+
+	public void setFile(File file) {
+		this.file = file;
 	}
 
 	public boolean isSharedPublicly() {
