@@ -1,22 +1,16 @@
 package com.mihailstefanov.photoalbum.controllers;
 
-import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mihailstefanov.photoalbum.bindingModels.PhotoBindingModel;
 import com.mihailstefanov.photoalbum.entities.File;
 import com.mihailstefanov.photoalbum.entities.Photo;
 import com.mihailstefanov.photoalbum.repositories.FileRepository;
@@ -36,9 +30,11 @@ public class PhotoController {
 	
 	// TODO: Convert end-points to include user names or IDs
 	
-	@GetMapping("/album")
+	@GetMapping("/")
 	public String album(Model model) {
+		List<File> allFiles = this.fileRepository.findAll();
 		model.addAttribute("view", "photo/album");
+		model.addAttribute("files", allFiles);
 		return "base-layout";
 	}
 	
@@ -68,8 +64,6 @@ public class PhotoController {
 		Photo photo = new Photo(name, description, fileEntity);
 		fileEntity.setPhoto(photo);
 		fileRepository.saveAndFlush(fileEntity);
-		photoRepository.saveAndFlush(photo);
 		return "redirect:/";
 	}
-	
 }

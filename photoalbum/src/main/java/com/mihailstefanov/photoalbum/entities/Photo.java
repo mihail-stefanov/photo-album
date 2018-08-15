@@ -81,6 +81,10 @@ public class Photo {
 	public Photo(String name, String description, File file) {
 		this(name, description, new Date(), file, 0, 0, "", false);
 	}
+	
+	public Photo() {
+		super();
+	}
 
 	public void setId(Long id) {
 		this.id = id;
