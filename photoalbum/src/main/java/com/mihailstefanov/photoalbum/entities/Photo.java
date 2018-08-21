@@ -60,12 +60,6 @@ public class Photo {
 	//	- shared with [list]
 	//	- comments
 	
-	
-
-	public Long getId() {
-		return id;
-	}
-
 	public Photo(String name, String description, Date dateUploaded, File file, long numberOfUniqueUserViews,
 			long numberOfLikes, String tags, boolean sharedPublicly) {
 		this.name = name;
@@ -84,6 +78,10 @@ public class Photo {
 	
 	public Photo() {
 		super();
+	}
+	
+	public Long getId() {
+		return id;
 	}
 
 	public void setId(Long id) {
