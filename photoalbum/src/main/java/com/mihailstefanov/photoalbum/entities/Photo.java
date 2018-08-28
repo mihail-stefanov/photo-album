@@ -1,14 +1,17 @@
 package com.mihailstefanov.photoalbum.entities;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -32,44 +35,27 @@ public class Photo {
 	@Column(nullable = false)
 	private Date dateUploaded;
 	
-//	@Temporal(TemporalType.TIMESTAMP)
-//	@Column(nullable = false)
-//	private Date dateTaken;
-	
 	@OneToOne
 	@JoinColumn(name = 	"file_id")
 	private File file;
 	
-//	@Lob
-//	@Column(nullable = false, columnDefinition = "BLOB")
-//	private byte[] smallFile;
-	
 	@Basic
-	private long numberOfUniqueUserViews;
+	private long numberOfViews;
 	
 	@Basic
 	private long numberOfLikes;
 	
-	@Basic
-	private String tags;
+	@OneToMany(mappedBy = "photo", fetch = FetchType.EAGER)
+	private Set<Comment> comments;
 	
-	@Basic
-	private boolean sharedPublicly;
-	
-	// TODO: Add the following:
-	//	- shared with [list]
-	//	- comments
-	
-	public Photo(String name, String description, Date dateUploaded, File file, long numberOfUniqueUserViews,
+	public Photo(String name, String description, Date dateUploaded, File file, long numberOfViews,
 			long numberOfLikes, String tags, boolean sharedPublicly) {
 		this.name = name;
 		this.description = description;
 		this.dateUploaded = dateUploaded;
 		this.file = file;
-		this.numberOfUniqueUserViews = numberOfUniqueUserViews;
+		this.numberOfViews = numberOfViews;
 		this.numberOfLikes = numberOfLikes;
-		this.tags = tags;
-		this.sharedPublicly = sharedPublicly;
 	}
 	
 	public Photo(String name, String description, File file) {
@@ -112,29 +98,12 @@ public class Photo {
 		this.dateUploaded = dateUploaded;
 	}
 
-//	public Date getDateTaken() {
-//		return dateTaken;
-//	}
-//
-//	public void setDateTaken(Date dateTaken) {
-//		this.dateTaken = dateTaken;
-//	}
-
-
-//	public byte[] getSmallPhoto() {
-//		return smallPhoto;
-//	}
-//
-//	public void setSmallPhoto(byte[] smallPhoto) {
-//		this.smallPhoto = smallPhoto;
-//	}
-
-	public long getNumberOfUniqueUserViews() {
-		return numberOfUniqueUserViews;
+	public long getNumberOfViews() {
+		return numberOfViews;
 	}
 
-	public void setNumberOfUniqueUserViews(long numberOfUniqueUserViews) {
-		this.numberOfUniqueUserViews = numberOfUniqueUserViews;
+	public void setNumberOfViews(long numberOfViews) {
+		this.numberOfViews = numberOfViews;
 	}
 
 	public long getNumberOfLikes() {
@@ -145,14 +114,6 @@ public class Photo {
 		this.numberOfLikes = numberOfLikes;
 	}
 
-	public String getTags() {
-		return tags;
-	}
-
-	public void setTags(String tags) {
-		this.tags = tags;
-	}
-	
 	public File getFile() {
 		return file;
 	}
@@ -161,12 +122,11 @@ public class Photo {
 		this.file = file;
 	}
 
-	public boolean isSharedPublicly() {
-		return sharedPublicly;
+	public Set<Comment> getComments() {
+		return comments;
 	}
 
-	public void setSharedPublicly(boolean sharedPublicly) {
-		this.sharedPublicly = sharedPublicly;
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
-	
 }

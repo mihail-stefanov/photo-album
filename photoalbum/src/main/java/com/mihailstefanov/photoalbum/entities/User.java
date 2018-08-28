@@ -1,6 +1,5 @@
 package com.mihailstefanov.photoalbum.entities;
 
-import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -13,10 +12,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
@@ -57,6 +56,9 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(
 					name = "role_id", referencedColumnName = "id"))
 	private Set<Role> authorities;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private Set<Comment> comments;
 	
 	public User() {
 	}
@@ -130,5 +132,13 @@ public class User implements UserDetails {
 
 	public void setEnabled(boolean isEnabled) {
 		this.isEnabled = isEnabled;
+	}
+
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
 }
