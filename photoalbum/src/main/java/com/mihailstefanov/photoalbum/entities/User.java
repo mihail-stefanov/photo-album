@@ -23,6 +23,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Table(name = "users")
 public class User implements UserDetails {
 
+	private static final long serialVersionUID = -7881920970514167458L;
+
 	@Id
 	@GeneratedValue(generator = "UUID")
 	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -36,18 +38,18 @@ public class User implements UserDetails {
 	private String password;
 	
 	@Basic
-	private boolean isAccountNonExpired;
+	private boolean isAccountNonExpired = true;
 	
 	@Basic
-	private boolean isAccountNonLocked;
+	private boolean isAccountNonLocked = true;
 	
 	@Basic
-	private boolean isCredentialsNonExpired;
+	private boolean isCredentialsNonExpired = true;
 	
 	@Basic
-	private boolean isEnabled;
+	private boolean isEnabled = true;
 	
-	@ManyToMany(cascade = CascadeType.ALL, targetEntity = Role.class, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, targetEntity = Role.class, fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "users_roles",
 			joinColumns = @JoinColumn(
@@ -86,7 +88,7 @@ public class User implements UserDetails {
 	}
 
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
+	public Set<Role> getAuthorities() {
 		return authorities;
 	}
 

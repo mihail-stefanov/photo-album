@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.mihailstefanov.photoalbum.bindingModels.UserBindingModel;
+import com.mihailstefanov.photoalbum.bindingModels.UserRegisterBindingModel;
 import com.mihailstefanov.photoalbum.common.factories.RoleFactory;
 import com.mihailstefanov.photoalbum.entities.Role;
 import com.mihailstefanov.photoalbum.entities.User;
@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean createUser(UserBindingModel userBindingModel) {
+	public boolean createUser(UserRegisterBindingModel userBindingModel) {
 		User user = this.modelMapper.map(userBindingModel, User.class);
 		user.setPassword(this.bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
 		Set<Role> authorities = new HashSet<>();
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		user.setAuthorities(authorities);
-		return this.userRepository.saveAndFlush(user) != null;
+		return this.userRepository.save(user) != null;
 	}
 
 	@Override
@@ -64,6 +64,12 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getAllUsers() {
 		return this.userRepository.findAll();
+	}
+
+	@Override
+	public void delete() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

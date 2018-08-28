@@ -1,0 +1,10 @@
+<h1>Admin Home</h1>
+<h2 th:text="|Welcome, ${name}|"></h2>
+<br />
+<h2>Authorities</h2>
+<div th:each="authority : ${authorities}">
+	<p th:text="${authority.authority}"></p>
+</div>
+<form th:action="@{/logout}" method="POST">
+	<button class="btn btn-primary" type="submit">Logout</button>
+</form>

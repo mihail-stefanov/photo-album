@@ -1,0 +1,6 @@
+<h1>Home</h1>
+<h2 th:text="|Welcome, ${name}|"></h2>
+<h3 sec:authorize="hasAuthority('ADMIN')">Your name is <p sec:authentication="name"></p> and your are an Admin.</h3>
+<form th:action="@{/logout}" method="POST">
+	<button class="btn btn-primary" type="submit">Logout</button>
+</form>

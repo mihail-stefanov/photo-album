@@ -1,13 +1,12 @@
 package com.mihailstefanov.photoalbum.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +16,7 @@ import com.mihailstefanov.photoalbum.repositories.FileRepository;
 import com.mihailstefanov.photoalbum.repositories.PhotoRepository;
 
 @Controller
+@RequestMapping("/photo")
 public class PhotoController {
 	
 	private final PhotoRepository photoRepository;
@@ -30,21 +30,13 @@ public class PhotoController {
 	
 	// TODO: Convert end-points to include user names or IDs
 	
-	@GetMapping("/")
-	public String album(Model model) {
-		List<File> allFiles = this.fileRepository.findAll();
-		model.addAttribute("view", "photo/album");
-		model.addAttribute("files", allFiles);
-		return "base-layout";
-	}
-	
-	@GetMapping("/photo/add")
+	@GetMapping("/add")
 	public String addPhotoGet(Model model) {
 		model.addAttribute("view", "photo/add");
 		return "base-layout";
 	}
 	
-	@PostMapping("/photo/add")
+	@PostMapping("/add")
 	public String addPhotoPost(
 			@RequestParam("name") String name, 
 			@RequestParam("description") String description,
