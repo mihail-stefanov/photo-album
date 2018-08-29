@@ -20,7 +20,7 @@ public class File {
 	private Long id;
 	
 	@Lob
-	@Column(nullable = false, columnDefinition = "BLOB")
+	@Column(nullable = false, columnDefinition = "LONGBLOB")
 	private byte[] file;
 	
 	@Basic

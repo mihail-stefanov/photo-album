@@ -69,10 +69,4 @@ public class UserController {
 		model.addAttribute("view", "user/login");
 		return "base-layout";
 	}
-	
-//	@PostMapping("/login")
-//	public String loginPost(Model model) {
-//		return null;
-//	}
-//	
 }

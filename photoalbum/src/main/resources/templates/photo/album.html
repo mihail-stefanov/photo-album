@@ -1,7 +1,0 @@
-<h1>All Photos</h1>
-<section xmlns:th="http://www.thymeleaf.org">
-	<div th:each="file : ${files}">
-		<img th:src="@{~/photo/file/}+${file.id}" alt="" />
-		<br />
-	</div>
-</section>

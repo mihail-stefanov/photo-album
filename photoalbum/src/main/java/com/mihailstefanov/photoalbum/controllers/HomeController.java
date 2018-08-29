@@ -10,19 +10,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.mihailstefanov.photoalbum.entities.File;
+import com.mihailstefanov.photoalbum.entities.Photo;
+import com.mihailstefanov.photoalbum.entities.User;
 import com.mihailstefanov.photoalbum.repositories.FileRepository;
 import com.mihailstefanov.photoalbum.repositories.PhotoRepository;
+import com.mihailstefanov.photoalbum.repositories.UserRepository;
 
 @Controller
 public class HomeController {
 	
 	private final PhotoRepository photoRepository;
 	private final FileRepository fileRepository;
+	private final UserRepository userRepository;
 	
 	@Autowired
-	public HomeController(PhotoRepository photoRepository, FileRepository fileRepository) {
+	public HomeController(PhotoRepository photoRepository, FileRepository fileRepository, UserRepository userRepository) {
 		this.photoRepository = photoRepository;
 		this.fileRepository = fileRepository;
+		this.userRepository = userRepository;
 	}
 	
 	@GetMapping("/")
@@ -30,19 +35,14 @@ public class HomeController {
 		return "index";
 	}
 	
-	@GetMapping("/browse")
-	public String browse(Model model) {
-		List<File> allFiles = this.fileRepository.findAll();
-		model.addAttribute("view", "photo/album");
-		model.addAttribute("files", allFiles);
-		return "base-layout";
-	}
-	
 	@GetMapping("/home")
 	public String home(Model model, Principal principal) {
-		String name = principal.getName();
+		String username = principal.getName();
+		User user = this.userRepository.findByUsername(username).orElse(null);
+		List<Photo> photos = this.photoRepository.findByUser_Id(user.getId());
 		model.addAttribute("view", "user/home");
-		model.addAttribute("name", name);
+		model.addAttribute("username", username);
+		model.addAttribute("photos", photos);
 		return "base-layout";
 	}
 	

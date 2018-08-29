@@ -1,0 +1,12 @@
+<h1 class="photo-browse">Browse All Photos</h1>
+<section xmlns:th="http://www.thymeleaf.org">
+	<div class="photo-browse">
+		<th:block th:each="photo : ${photos}">
+			<a href="#">
+				<div class="d-inline">
+					<img th:src="@{/photo/file/}+${photo.file.id}" class="img-thumbnail m-2" width="200" />				
+				</div>
+			</a>
+		</th:block>	
+	</div>
+</section>

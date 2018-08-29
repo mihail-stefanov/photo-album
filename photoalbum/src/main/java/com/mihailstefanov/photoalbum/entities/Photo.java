@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -48,18 +49,23 @@ public class Photo {
 	@OneToMany(mappedBy = "photo", fetch = FetchType.EAGER)
 	private Set<Comment> comments;
 	
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+	
 	public Photo(String name, String description, Date dateUploaded, File file, long numberOfViews,
-			long numberOfLikes, String tags, boolean sharedPublicly) {
+			long numberOfLikes, String tags, boolean sharedPublicly, User user) {
 		this.name = name;
 		this.description = description;
 		this.dateUploaded = dateUploaded;
 		this.file = file;
 		this.numberOfViews = numberOfViews;
 		this.numberOfLikes = numberOfLikes;
+		this.user = user;
 	}
 	
-	public Photo(String name, String description, File file) {
-		this(name, description, new Date(), file, 0, 0, "", false);
+	public Photo(String name, String description, File file, User user) {
+		this(name, description, new Date(), file, 0, 0, "", false, user);
 	}
 	
 	public Photo() {
@@ -128,5 +134,13 @@ public class Photo {
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 }

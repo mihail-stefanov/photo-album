@@ -56,6 +56,9 @@ public class User implements UserDetails {
 	private Set<Role> authorities;
 	
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	private Set<Photo> photos;
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
 	private Set<Comment> comments;
 	
 	public User() {
@@ -138,5 +141,13 @@ public class User implements UserDetails {
 
 	public void setComments(Set<Comment> comments) {
 		this.comments = comments;
+	}
+
+	public Set<Photo> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(Set<Photo> photos) {
+		this.photos = photos;
 	}
 }

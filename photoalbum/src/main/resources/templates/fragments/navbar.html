@@ -16,10 +16,13 @@
 	<div class="collapse navbar-collapse" id="collapsibleNavbar">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item">
-				<a th:href="@{/browse}" class="nav-link">Browse</a>
+				<a th:href="@{/photo/browse}" class="nav-link">Browse</a>
 			</li>
 			<li class="nav-item active">
 				<a th:href="@{/admin/home}" class="nav-link" sec:authorize="hasAuthority('ADMIN')">Admin Tools</a>
+			</li>
+			<li sec:authorize="isAuthenticated()" class="nav-item active">
+				<a th:href="@{/photo/add}" class="nav-link">Add Photo</a>
 			</li>
 			<li sec:authorize="!isAuthenticated()" th:if="${view} != 'user/register'" class="nav-item">
 				<a th:href="@{/register}" class="nav-link">Register</a>

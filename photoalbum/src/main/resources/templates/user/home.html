@@ -1,6 +1,19 @@
-<h1>Home</h1>
-<h2 th:text="|Welcome, ${name}|"></h2>
-<h3 sec:authorize="hasAuthority('ADMIN')">Your name is <p sec:authentication="name"></p> and your are an Admin.</h3>
-<form th:action="@{/logout}" method="POST">
-	<button class="btn btn-primary" type="submit">Logout</button>
-</form>
+<h1 class="photo-browse">My Photos</h1>
+<section xmlns:th="http://www.thymeleaf.org">
+	<div class="photo-browse">
+
+		<div class="card-deck">
+			<th:block th:each="photo : ${photos}">
+				<div class="card m-2">
+					<img th:src="@{/photo/file/}+${photo.file.id}"
+						class="img-thumbnail m-2" />
+					<div class="card-body">
+						<h4 class="card-title" th:text="${photo.name}"></h4>
+						<p class="card-text" th:text="${photo.description}"></p>
+						<a href="#" class="btn btn-danger">Delete</a>
+					</div>
+				</div>
+			</th:block>
+		</div>
+	</div>
+</section>
