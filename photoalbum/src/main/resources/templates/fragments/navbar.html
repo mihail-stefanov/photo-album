@@ -1,0 +1,37 @@
+<nav
+
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+
+
+ class="navbar navbar-expand-md bg-dark navbar-dark">
+	<a class="navbar-brand abs" th:href="@{/}" sec:authorize="!isAuthenticated()">Photo Album</a>
+ 	<th:block sec:authorize="isAuthenticated()">
+		<a class="navbar-brand" th:href="@{/home}" sec:authorize="hasAuthority('USER')">Photo Album</a>
+ 	</th:block>
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="collapsibleNavbar">
+		<ul class="navbar-nav ml-auto">
+			<li class="nav-item">
+				<a th:href="@{/browse}" class="nav-link">Browse</a>
+			</li>
+			<li class="nav-item active">
+				<a th:href="@{/admin/home}" class="nav-link" sec:authorize="hasAuthority('ADMIN')">Admin Tools</a>
+			</li>
+			<li sec:authorize="!isAuthenticated()" th:if="${view} != 'user/register'" class="nav-item">
+				<a th:href="@{/register}" class="nav-link">Register</a>
+			</li>
+			<li sec:authorize="!isAuthenticated()" th:if="${view} != 'user/login'" class="nav-item">
+				<a th:href="@{/login}" class="nav-link">Login</a>
+			</li>
+			<li sec:authorize="isAuthenticated()" class="nav-item">
+				<form th:action="@{/logout}" method="POST">
+					<button class="btn btn-link nav-link" type="submit">Logout</button>
+				</form>
+			</li>
+		</ul>
+	</div>
+</nav>

@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.web.csrf.CsrfTokenRepository;
 import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
 
-import com.mihailstefanov.photoalbum.services.UserService;
 import com.mihailstefanov.photoalbum.services.UserServiceImpl;
 
 @Configuration
@@ -31,7 +30,7 @@ public class ApplicationSecurityConfiguration extends WebSecurityConfigurerAdapt
 			.csrf().csrfTokenRepository(csrfTokenRepository())
 			.and().authorizeRequests()
 			.antMatchers("/", "/register", "/login", "/browse").permitAll()
-//			.antMatchers("/css/**", "/js/**").permitAll()
+			.antMatchers("/css/**", "/js/**").permitAll()
 			.antMatchers("/admin/**").hasAuthority("ADMIN")
 			.anyRequest().authenticated()
 			.and().formLogin().loginPage("/login").permitAll()

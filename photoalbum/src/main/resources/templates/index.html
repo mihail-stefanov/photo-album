@@ -1,1 +1,26 @@
-<h1>Initial Test Index</h1>
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:th="http://www.thymeleaf.org" 
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head th:include="fragments/head" th:with="title='Photo Album'">
+</head>
+<body>
+	<div th:include="fragments/navbar">
+	</div>
+	<div id="welcome-page">
+		<main>		
+			<h1>Photo Album</h1>
+			<p>
+				<h5>A place to share photos.</h5>
+			</p>
+			<p>
+				<a th:href="@{/browse}" type="button" class="btn btn-secondary" role="button">Browse Photos</a>
+			</p>
+		</main>
+		<footer>
+			SoftUni Project - 2018
+		</footer>
+	</div>
+</body>
+</html>

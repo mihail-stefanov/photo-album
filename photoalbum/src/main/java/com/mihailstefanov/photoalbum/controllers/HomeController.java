@@ -26,7 +26,12 @@ public class HomeController {
 	}
 	
 	@GetMapping("/")
-	public String album(Model model) {
+	public String index(Model model) {
+		return "index";
+	}
+	
+	@GetMapping("/browse")
+	public String browse(Model model) {
 		List<File> allFiles = this.fileRepository.findAll();
 		model.addAttribute("view", "photo/album");
 		model.addAttribute("files", allFiles);

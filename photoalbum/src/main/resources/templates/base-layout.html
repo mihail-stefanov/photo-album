@@ -5,7 +5,11 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
 <head th:include="fragments/head" th:with="title='Photo Album'">
 </head>
-<body class="container">
-    <main th:include="${view}"></main>
+<body>
+	<div th:include="fragments/navbar">
+	</div>
+	<div class="container">
+	    <main th:include="${view}"></main>
+	</div>
 </body>
 </html>

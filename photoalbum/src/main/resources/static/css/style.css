@@ -1,0 +1,14 @@
+body #welcome-page {
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    line-height: 3em;
+    
+	background-color: rgb(235,235,235);
+}
+
+body #welcome-page h1 {
+	font-size: 5em;
+}
