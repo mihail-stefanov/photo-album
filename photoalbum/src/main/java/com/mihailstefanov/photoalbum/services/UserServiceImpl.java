@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean createUser(UserRegisterBindingModel userBindingModel) {
-		User user = this.modelMapper.map(userBindingModel, User.class);
-		user.setPassword(this.bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
+	public boolean createUser(UserRegisterBindingModel userRegisterBindingModel) {
+		User user = this.modelMapper.map(userRegisterBindingModel, User.class);
+		user.setPassword(this.bCryptPasswordEncoder.encode(userRegisterBindingModel.getPassword()));
 		Set<Role> authorities = new HashSet<>();
 		
 		Optional<Role> roleAdmin = this.roleRepository.findOptionalByAuthority(RoleAuthority.ADMIN);
@@ -76,6 +76,12 @@ public class UserServiceImpl implements UserService {
 	public void delete() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean checkAlreadyExists(UserRegisterBindingModel userRegisterBindingModel) {
+		User user = this.userRepository.findByUsername(userRegisterBindingModel.getUsername()).orElse(null);
+		return user != null;
 	}
 
 }

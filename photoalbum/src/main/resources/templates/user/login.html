@@ -1,25 +1,29 @@
 <h1>Login</h1>
 <section xmlns:th="http://www.thymeleaf.org">
-	<div th:if="${message}">
-		<h3 th:text="${message}"></h3>
-	</div>
 	<form th:action="@{/login}" method="POST">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="name">Username</label>
-					<input type="text" class="form-control" id="username" name="username" />
+					<input type="text" class="form-control" id="username" name="username" th:classappend="${error} != null ? 'is-invalid'"/>
+					<div class="invalid-feedback" th:if="${error} != null">
+						<div th:text="${error}">
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" id="password" name="password" />
+					<input type="password" class="form-control" id="password" name="password" th:classappend="${error} != null ? 'is-invalid'"/>
+					<div class="invalid-feedback" th:if="${error} != null">
+						<div th:text="${error}">
+						</div>
+					</div>
 				</div>
 				<div class="form-group form-check">
 					<input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe" />
 					<label for="rememberMe" class="form-check-label">Remember me</label>
 				</div>
 				<button class="btn btn-primary" type="submit">Login</button>
-				<button class="btn btn-secondary" type="reset">Clear</button>
 			</div>
 		</div>
 	</form>

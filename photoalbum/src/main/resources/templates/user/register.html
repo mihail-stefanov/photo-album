@@ -3,23 +3,34 @@
 	<div th:if="${message}">
 		<h3 th:text="${message}"></h3>
 	</div>
-	<form th:action="@{/register}" method="POST">
+	<form th:action="@{/register}" method="POST" th:object="${userRegisterBindingModel}">
 		<div class="row">
 			<div class="col-sm-3">
 				<div class="form-group">
 					<label for="name">Username</label>
-					<input type="text" class="form-control" id="username" name="username" />
+					<input type="text" class="form-control" id="username" name="username" th:field="*{username}" th:classappend="${#fields.hasErrors('username')}? 'is-invalid'"/>
+					<div class="invalid-feedback" th:each="error : ${#fields.errors('username')}">
+						<div th:text="${error}">
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="password">Password</label>
-					<input type="password" class="form-control" id="password" name="password" />
+					<input type="password" class="form-control" id="password" name="password" th:field="*{password}" th:classappend="${#fields.hasErrors('password')}? 'is-invalid'"/>
+					<div class="invalid-feedback" th:each="error : ${#fields.errors('password')}">
+						<div th:text="${error}">
+						</div>
+					</div>
 				</div>
 				<div class="form-group">
 					<label for="confirmPassword">Confirm password</label>
-					<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" />
+					<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" th:field="*{confirmPassword}" th:classappend="${#fields.hasErrors('confirmPassword')}? 'is-invalid'" />
+					<div class="invalid-feedback" th:each="error : ${#fields.errors('confirmPassword')}">
+						<div th:text="${error}">
+						</div>
+					</div>
 				</div>
 				<button class="btn btn-primary" type="submit">Register</button>
-				<button class="btn btn-secondary" type="reset">Clear</button>
 			</div>
 		</div>
 	</form>
