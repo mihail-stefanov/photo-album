@@ -6,7 +6,7 @@
 				<div class="card m-2">
 					<a th:href="@{/photo/} + ${photo.id}">
 						<img th:src="@{/photo/file/}+${photo.file.id}"
-							class="img-thumbnail m-2" />					
+							class="img-thumbnail" />					
 					</a>
 					<div class="card-body">
 						<h4 class="card-title" th:text="${photo.name}"></h4>

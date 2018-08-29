@@ -1,37 +1,29 @@
 package com.mihailstefanov.photoalbum.bindingModels;
 
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
+
 public class PhotoBindingModel {
 
-	// private Long id;
+	@NotNull
+	@Length(min = 1, max = 30, message = "The photo name must be between 1 and 30 characters long.")
 	private String name;
+
+	@NotNull
+	@Length(min = 1, max = 140, message = "The photo description must be between 1 and 140 characters long.")
 	private String description;
-	// private Date dateUploaded;
-	// private Date dateTaken;
-	private byte[] file;
-	// private byte[] smallPhoto;
-	// private long numberOfUniqueUserViews;
-	// private long numberOfLikes;
-	// private String tags;
-	// private boolean sharedPublicly;
 
-	// TODO: Add the following:
-	// - shared with [list]
-	// - comments
+	@NotNull
+	private MultipartFile file;
 
-	public PhotoBindingModel(String name, String description, byte[] file) {
+	public PhotoBindingModel(String name, String description, MultipartFile file) {
 		this.name = name;
 		this.description = description;
 		this.file = file;
 	}
 	
-	// public Long getId() {
-	// return id;
-	// }
-	//
-	// public void setId(Long id) {
-	// this.id = id;
-	// }
-
 	public String getName() {
 		return name;
 	}
@@ -48,67 +40,11 @@ public class PhotoBindingModel {
 		this.description = description;
 	}
 
-	// public Date getDateUploaded() {
-	// return dateUploaded;
-	// }
-	//
-	// public void setDateUploaded(Date dateUploaded) {
-	// this.dateUploaded = dateUploaded;
-	// }
-
-	// public Date getDateTaken() {
-	// return dateTaken;
-	// }
-	//
-	// public void setDateTaken(Date dateTaken) {
-	// this.dateTaken = dateTaken;
-	// }
-
-	public byte[] getFile() {
+	public MultipartFile getFile() {
 		return file;
 	}
 
-	public void setFile(byte[] file) {
+	public void setFile(MultipartFile file) {
 		this.file = file;
 	}
-
-	// public byte[] getSmallPhoto() {
-	// return smallPhoto;
-	// }
-	//
-	// public void setSmallPhoto(byte[] smallPhoto) {
-	// this.smallPhoto = smallPhoto;
-	// }
-
-	// public long getNumberOfUniqueUserViews() {
-	// return numberOfUniqueUserViews;
-	// }
-	//
-	// public void setNumberOfUniqueUserViews(long numberOfUniqueUserViews) {
-	// this.numberOfUniqueUserViews = numberOfUniqueUserViews;
-	// }
-	//
-	// public long getNumberOfLikes() {
-	// return numberOfLikes;
-	// }
-	//
-	// public void setNumberOfLikes(long numberOfLikes) {
-	// this.numberOfLikes = numberOfLikes;
-	// }
-	//
-	// public String getTags() {
-	// return tags;
-	// }
-	//
-	// public void setTags(String tags) {
-	// this.tags = tags;
-	// }
-	//
-	// public boolean isSharedPublicly() {
-	// return sharedPublicly;
-	// }
-	//
-	// public void setSharedPublicly(boolean sharedPublicly) {
-	// this.sharedPublicly = sharedPublicly;
-	// }
 }

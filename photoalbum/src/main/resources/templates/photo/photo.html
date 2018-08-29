@@ -1,6 +1,5 @@
-<h1>Photo</h1>
 <section xmlns:th="http://www.thymeleaf.org">
-	<div class="photo-browse">
+	<div class="photo-browse mt-1">
 		<div class="card-deck">
 			<div class="card m-2">
 				<img th:src="@{/photo/file/}+${photo.file.id}"
@@ -20,7 +19,7 @@
 							<td>
 								<div class="comment-cell ml-5">
 									<span class="font-weight-bold" th:text="${comment.user.username}"></span>
-									<span class="text-muted" th:text="| / ${#dates.format(comment.datePosted,'dd-MMM-yyyy')} / : |"></span>
+									<span class="text-muted" th:text="| / ${#dates.format(comment.datePosted,'dd-MMM-yyyy HH:mm')} / : |"></span>
 								</div>
 								<div class="comment-cell ml-5 mt-2 mb-4">
 									<span class="text-dark" th:text="${comment.text}"></span>
@@ -35,13 +34,13 @@
 					<div class="mx-5">
 						<div class="form-group">
 							<label for="name">Comment</label>
-							<textarea class="form-control" id="text" name="text" th:field="*{text}" th:classappend="${#fields.hasErrors('text')}? 'is-invalid'" ></textarea>
+							<textarea class="form-control" id="text" name="text" th:field="*{text}" th:classappend="${#fields.hasErrors('text')}? 'is-invalid'"></textarea>
 							<div class="invalid-feedback" th:each="error : ${#fields.errors('text')}">
 								<div th:text="${error}">
 								</div>
 							</div>
 						</div>
-						<button class="btn btn-primary" type="submit">Add Comment</button>
+						<button class="btn btn-primary mb-3" type="submit">Add Comment</button>
 					</div>
 				</form>
 			</div>

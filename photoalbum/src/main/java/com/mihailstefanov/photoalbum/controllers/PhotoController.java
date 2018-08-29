@@ -2,7 +2,6 @@ package com.mihailstefanov.photoalbum.controllers;
 
 import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -14,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mihailstefanov.photoalbum.bindingModels.CommentBindingModel;
+import com.mihailstefanov.photoalbum.bindingModels.PhotoBindingModel;
 import com.mihailstefanov.photoalbum.entities.File;
 import com.mihailstefanov.photoalbum.entities.Photo;
 import com.mihailstefanov.photoalbum.entities.User;
@@ -48,26 +49,31 @@ public class PhotoController {
 		this.commentService = commentService;
 	}
 	
-	// TODO: Convert end-points to include user names or IDs
-	
 	@GetMapping("/add")
-	public String addPhotoGet(Model model) {
+	public String addPhotoGet(Model model, @ModelAttribute PhotoBindingModel photoBindingModel	 ) {
 		model.addAttribute("view", "photo/add");
 		return "base-layout";
 	}
 	
 	@PostMapping("/add")
 	public String addPhotoPost(
+			Model model,
 			@RequestParam("name") String name, 
 			@RequestParam("description") String description,
 			@RequestParam("file") MultipartFile file,
+			@Valid @ModelAttribute PhotoBindingModel photoBindingModel, BindingResult bindingResult,
 			Principal principal) throws Exception {
 		
-		// TODO: Handle Exceptions
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("view", "photo/add");
+			return "base-layout";
+		}
+
 		String contentType = file.getContentType();
 		if (!(contentType.equals(MediaType.IMAGE_GIF_VALUE) || contentType.equals(MediaType.IMAGE_JPEG_VALUE) || contentType.equals(MediaType.IMAGE_PNG_VALUE))) {
-			throw new Exception();
-			// TODO: Handle exception
+			bindingResult.addError(new FieldError("photoBindingModel", "file", "The file must be of type GIF, JPEG or PNG."));
+			model.addAttribute("view", "photo/add");
+			return "base-layout";
 		}
 		
 		File fileEntity = new File();
@@ -91,14 +97,16 @@ public class PhotoController {
 	}
 	
 	@PostMapping("/{photoId}/comment/add")
-	public String addCommentToPhoto(Model model, @Valid @ModelAttribute CommentBindingModel commentBindingModel, @PathVariable long photoId, BindingResult bindingResult, Principal principal) {
+	public String addCommentToPhoto(@PathVariable long photoId, Model model, @Valid @ModelAttribute CommentBindingModel commentBindingModel, BindingResult bindingResult, Principal principal) {
 		
 		if (!bindingResult.hasErrors()) {
 			this.commentService.addComment(commentBindingModel, principal, photoId);
 			return "redirect:/photo/" + photoId;
 		}
 		
+		Photo photo = this.photoRepository.findById(photoId).orElse(null);
 		model.addAttribute("view", "photo/photo");
+		model.addAttribute("photo", photo);
 		return "base-layout";
 	}
 	
