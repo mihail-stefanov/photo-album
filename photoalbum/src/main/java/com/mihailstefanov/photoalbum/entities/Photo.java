@@ -36,7 +36,7 @@ public class Photo {
 	private Date dateUploaded;
 	
 	@OneToOne
-	@JoinColumn(name = 	"file_id")
+	@JoinColumn(name = "file_id")
 	private File file;
 	
 	@Basic

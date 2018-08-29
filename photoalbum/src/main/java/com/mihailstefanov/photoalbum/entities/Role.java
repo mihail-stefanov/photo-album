@@ -1,14 +1,21 @@
 package com.mihailstefanov.photoalbum.entities;
 
+import java.util.Set;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
+
+import com.mihailstefanov.photoalbum.enums.RoleAuthority;
 
 @Entity
 @Table(name = "roles")
@@ -24,11 +31,19 @@ public class Role implements GrantedAuthority {
 	
 	@Basic
 	@Column(nullable = false)
-	private String authority;
+	@Enumerated(EnumType.STRING)
+	private RoleAuthority authority;
+	
+	@ManyToMany(mappedBy = "authorities")
+	private Set<User> users;
 	
 	public Role() {
 	}
 	
+	public Role(RoleAuthority authority) {
+		this.authority = authority;
+	}
+
 	public String getId() {
 		return id;
 	}
@@ -39,10 +54,18 @@ public class Role implements GrantedAuthority {
 
 	@Override
 	public String getAuthority() {
-		return authority;
+		return authority.name();
 	}
 
-	public void setAuthority(String authority) {
+	public void setAuthority(RoleAuthority authority) {
 		this.authority = authority;
+	}
+
+	public Set<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(Set<User> users) {
+		this.users = users;
 	}
 }

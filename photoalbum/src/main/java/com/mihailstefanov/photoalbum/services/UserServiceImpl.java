@@ -2,6 +2,7 @@ package com.mihailstefanov.photoalbum.services;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
@@ -12,25 +13,26 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mihailstefanov.photoalbum.bindingModels.UserRegisterBindingModel;
-import com.mihailstefanov.photoalbum.common.factories.RoleFactory;
 import com.mihailstefanov.photoalbum.entities.Role;
 import com.mihailstefanov.photoalbum.entities.User;
+import com.mihailstefanov.photoalbum.enums.RoleAuthority;
+import com.mihailstefanov.photoalbum.repositories.RoleRepository;
 import com.mihailstefanov.photoalbum.repositories.UserRepository;
 
 @Service
 public class UserServiceImpl implements UserService {
 	
 	private final UserRepository userRepository;
+	private final RoleRepository roleRepository;
 	private final ModelMapper modelMapper;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
-	private final RoleFactory roleFactory;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder, RoleFactory roleFactory) {
+	public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository, ModelMapper modelMapper, BCryptPasswordEncoder bCryptPasswordEncoder) {
 		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
 		this.modelMapper = modelMapper;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-		this.roleFactory = roleFactory;
 	}
 
 	@Override
@@ -39,13 +41,17 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(this.bCryptPasswordEncoder.encode(userBindingModel.getPassword()));
 		Set<Role> authorities = new HashSet<>();
 		
-		if (this.userRepository.findAll().isEmpty()) {
-			authorities.add(this.roleFactory.createRole("ADMIN"));
-			authorities.add(this.roleFactory.createRole("USER"));
-		} else {
-			authorities.add(this.roleFactory.createRole("USER"));
-		}
+		Optional<Role> roleAdmin = this.roleRepository.findOptionalByAuthority(RoleAuthority.ADMIN);
+		Optional<Role> roleUser = this.roleRepository.findOptionalByAuthority(RoleAuthority.USER);
 		
+		Role adminRoleToAdd = roleAdmin.isPresent() ? roleAdmin.get() : new Role(RoleAuthority.ADMIN);
+		Role userRoleToAdd = roleUser.isPresent() ? roleUser.get() : new Role(RoleAuthority.USER);
+		
+		if (this.userRepository.findAll().isEmpty()) {
+			authorities.add(adminRoleToAdd);
+		} 
+		
+		authorities.add(userRoleToAdd);
 		user.setAuthorities(authorities);
 		return this.userRepository.save(user) != null;
 	}
