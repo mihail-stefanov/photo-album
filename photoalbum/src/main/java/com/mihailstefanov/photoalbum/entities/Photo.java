@@ -1,6 +1,9 @@
 package com.mihailstefanov.photoalbum.entities;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -142,5 +145,12 @@ public class Photo {
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public List<Comment> getSortedComments() {
+		List<Comment> comments = new ArrayList<>();
+		comments.addAll(this.getComments());
+		Collections.sort(comments);
+		return comments;
 	}
 }

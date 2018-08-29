@@ -15,7 +15,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class Comment implements Comparable<Comment> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -89,5 +89,15 @@ public class Comment {
 
 	public void setPhoto(Photo photo) {
 		this.photo = photo;
+	}
+
+	@Override
+	public int compareTo(Comment other) {
+		if (this.getId() > other.getId()) {
+			return 1;
+		} else if (this.getId() < other.getId()) {
+			return -1;
+		}
+		return 0;
 	}
 }

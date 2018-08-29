@@ -22,3 +22,7 @@ body #welcome-page h1 {
 .card {
 	min-width: 300px;
 }
+
+.comment-cell {
+    text-align: left;
+}

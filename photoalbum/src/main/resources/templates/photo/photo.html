@@ -1,0 +1,50 @@
+<h1>Photo</h1>
+<section xmlns:th="http://www.thymeleaf.org">
+	<div class="photo-browse">
+		<div class="card-deck">
+			<div class="card m-2">
+				<img th:src="@{/photo/file/}+${photo.file.id}"
+					class="img-thumbnail m-2" />
+				<div class="card-body">
+					<h2 class="card-title" th:text="${photo.name}"></h2>
+					<p class="card-text mb-5" th:text="${photo.description}"></p>
+					<h6 class="card-text" th:text="|by ${photo.user.username}|"></h6>
+					<p class="font-italic" th:text="|Posted on ${#dates.format(photo.dateUploaded,'dd-MMM-yyyy')}"></p>
+				</div>
+				
+				<h5 class="m-5">Comments</h5>
+				<table class="table table-borderless table-sm">
+					<tbody>
+					<th:block th:each="comment : ${photo.getSortedComments()}">
+						<tr>
+							<td>
+								<div class="comment-cell ml-5">
+									<span class="font-weight-bold" th:text="${comment.user.username}"></span>
+									<span class="text-muted" th:text="| / ${#dates.format(comment.datePosted,'dd-MMM-yyyy')} / : |"></span>
+								</div>
+								<div class="comment-cell ml-5 mt-2 mb-4">
+									<span class="text-dark" th:text="${comment.text}"></span>
+								</div>
+							</td>
+						</tr>
+					</th:block>
+					</tbody>
+				</table>
+				
+				<form th:action="@{/photo/{photoId}/comment/add(photoId=${photo.id})}" method="POST" th:object="${commentBindingModel}">
+					<div class="mx-5">
+						<div class="form-group">
+							<label for="name">Comment</label>
+							<textarea class="form-control" id="text" name="text" th:field="*{text}" th:classappend="${#fields.hasErrors('text')}? 'is-invalid'" ></textarea>
+							<div class="invalid-feedback" th:each="error : ${#fields.errors('text')}">
+								<div th:text="${error}">
+								</div>
+							</div>
+						</div>
+						<button class="btn btn-primary" type="submit">Add Comment</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
