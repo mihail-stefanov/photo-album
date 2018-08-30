@@ -1,10 +1,24 @@
 <h1>Admin Home</h1>
-<h2 th:text="|Welcome, ${name}|"></h2>
 <br />
-<h2>Authorities</h2>
-<div th:each="authority : ${authorities}">
-	<p th:text="${authority.authority}"></p>
-</div>
-<form th:action="@{/logout}" method="POST">
-	<button class="btn btn-primary" type="submit">Logout</button>
-</form>
+<h2>All Users</h2>
+<h5 class="m-5">All Users</h5>
+<table class="table table-bordered table-sm table-light">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Role</th>
+		</tr>
+	</thead>
+	<tbody>
+		<th:block th:each="user : ${users}">
+			<tr>
+				<td>
+					<p th:text="${user.username}"></p>
+				</td>
+				<td><th:block th:each="authority : ${user.authorities}">
+						<p th:text="${authority.authority}"></p>
+					</th:block></td>
+			</tr>
+		</th:block>
+	</tbody>
+</table>
