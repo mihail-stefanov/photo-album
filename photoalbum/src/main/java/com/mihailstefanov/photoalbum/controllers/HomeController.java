@@ -9,10 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.mihailstefanov.photoalbum.entities.File;
 import com.mihailstefanov.photoalbum.entities.Photo;
 import com.mihailstefanov.photoalbum.entities.User;
-import com.mihailstefanov.photoalbum.repositories.FileRepository;
 import com.mihailstefanov.photoalbum.repositories.PhotoRepository;
 import com.mihailstefanov.photoalbum.repositories.UserRepository;
 
@@ -20,13 +18,11 @@ import com.mihailstefanov.photoalbum.repositories.UserRepository;
 public class HomeController {
 	
 	private final PhotoRepository photoRepository;
-	private final FileRepository fileRepository;
 	private final UserRepository userRepository;
 	
 	@Autowired
-	public HomeController(PhotoRepository photoRepository, FileRepository fileRepository, UserRepository userRepository) {
+	public HomeController(PhotoRepository photoRepository, UserRepository userRepository) {
 		this.photoRepository = photoRepository;
-		this.fileRepository = fileRepository;
 		this.userRepository = userRepository;
 	}
 	

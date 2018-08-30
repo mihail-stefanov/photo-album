@@ -24,6 +24,9 @@ public class PhotoBindingModel {
 		this.file = file;
 	}
 	
+	public PhotoBindingModel() {
+	}
+	
 	public String getName() {
 		return name;
 	}

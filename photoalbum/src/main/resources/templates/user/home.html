@@ -11,10 +11,13 @@
 					<div class="card-body">
 						<h4 class="card-title" th:text="${photo.name}"></h4>
 						<p class="card-text" th:text="${photo.description}"></p>
-						<a href="#" class="btn btn-danger">Delete</a>
+						<form th:action="@{/photo/} + ${photo.id} + '/delete'" method="POST">
+							<button type="submit" class="btn btn-danger">Delete</button>						
+						</form>
 					</div>
 				</div>
 			</th:block>
 		</div>
+		<h4 class="m-5" th:if="${photos.size()} == 0">You haven&apos;t uploaded any photos uploaded yet. Press &quot;Add Photo&quot; to add one.</h4>
 	</div>
 </section>

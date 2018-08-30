@@ -55,10 +55,10 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> authorities;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Photo> photos;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Comment> comments;
 	
 	public User() {

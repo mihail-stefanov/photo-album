@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +40,7 @@ public class Photo {
 	@Column(nullable = false)
 	private Date dateUploaded;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "file_id")
 	private File file;
 	
@@ -49,7 +50,7 @@ public class Photo {
 	@Basic
 	private long numberOfLikes;
 	
-	@OneToMany(mappedBy = "photo", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "photo", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Comment> comments;
 	
 	@ManyToOne

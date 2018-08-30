@@ -7,6 +7,7 @@
 					<img th:src="@{/photo/file/}+${photo.file.id}" class="img-thumbnail m-2" width="200" />
 				</div>
 			</a>
-		</th:block>	
+		</th:block>
+		<h4 class="m-5" th:if="${photos.size()} == 0">There are no photos uploaded yet. Press &quot;Add Photo&quot; to add one.</h4>
 	</div>
 </section>

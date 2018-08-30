@@ -26,11 +26,10 @@ import com.mihailstefanov.photoalbum.bindingModels.CommentBindingModel;
 import com.mihailstefanov.photoalbum.bindingModels.PhotoBindingModel;
 import com.mihailstefanov.photoalbum.entities.File;
 import com.mihailstefanov.photoalbum.entities.Photo;
-import com.mihailstefanov.photoalbum.entities.User;
 import com.mihailstefanov.photoalbum.repositories.FileRepository;
 import com.mihailstefanov.photoalbum.repositories.PhotoRepository;
-import com.mihailstefanov.photoalbum.repositories.UserRepository;
 import com.mihailstefanov.photoalbum.services.CommentService;
+import com.mihailstefanov.photoalbum.services.PhotoService;
 
 @Controller
 @RequestMapping("/photo")
@@ -38,15 +37,15 @@ public class PhotoController {
 	
 	private final PhotoRepository photoRepository;
 	private final FileRepository fileRepository;
-	private final UserRepository userRepository;
 	private final CommentService commentService;
+	private final PhotoService photoService;
 	
 	@Autowired
-	public PhotoController(PhotoRepository photoRepository, FileRepository fileRepository, UserRepository userRepository, CommentService commentService) {
+	public PhotoController(PhotoRepository photoRepository, FileRepository fileRepository, CommentService commentService, PhotoService photoService) {
 		this.photoRepository = photoRepository;
 		this.fileRepository = fileRepository;
-		this.userRepository = userRepository;
 		this.commentService = commentService;
+		this.photoService = photoService;
 	}
 	
 	@GetMapping("/add")
@@ -56,10 +55,9 @@ public class PhotoController {
 	}
 	
 	@PostMapping("/add")
-	public String addPhotoPost(
-			Model model,
-			@RequestParam("name") String name, 
-			@RequestParam("description") String description,
+	public String addPhoto(Model model, 
+			@RequestParam("name") String name,
+			@RequestParam("description") String description, 
 			@RequestParam("file") MultipartFile file,
 			@Valid @ModelAttribute PhotoBindingModel photoBindingModel, BindingResult bindingResult,
 			Principal principal) throws Exception {
@@ -76,15 +74,8 @@ public class PhotoController {
 			return "base-layout";
 		}
 		
-		File fileEntity = new File();
-		fileEntity.setFile(file.getBytes());
-		fileEntity.setContentType(contentType);
+		this.photoService.addPhoto(name, description, file, principal);
 		
-		User user = this.userRepository.findByUsername(principal.getName()).orElse(null);
-		
-		Photo photo = new Photo(name, description, fileEntity, user);
-		fileEntity.setPhoto(photo);
-		fileRepository.saveAndFlush(fileEntity);
 		return "redirect:/home";
 	}
 	
@@ -108,6 +99,19 @@ public class PhotoController {
 		model.addAttribute("view", "photo/photo");
 		model.addAttribute("photo", photo);
 		return "base-layout";
+	}
+	
+	@PostMapping("/{photoId}/delete")
+	public String deletePhoto(@PathVariable long photoId, Model model, Principal principal) {
+		Photo photo = this.photoRepository.findById(photoId).orElse(null);
+
+		if (!principal.getName().equals(photo.getUser().getUsername())) {
+			model.addAttribute("view", "user/home");
+			return "base-layout";
+		}
+		
+		this.photoService.deletePhoto(photo);
+		return "redirect:/home";
 	}
 	
 	@GetMapping("/browse")
